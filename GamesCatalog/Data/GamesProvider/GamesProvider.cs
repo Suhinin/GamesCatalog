@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using GamesCatalog.Data.GamesProvider.Domain;
 
@@ -25,9 +24,9 @@ namespace GamesCatalog.Data.GamesProvider
             });
         }
 
-        public IList<GameModel> Search(string title, string author)
+        public IList<GameModel> Search(string titleOrAuthor)
         {
-            return _games.Where(g => g.Title.Contains(title) || g.Author.Contains(author)).ToList();
+            return _games.Where(g => g.Title.Contains(titleOrAuthor) || g.Author.Contains(titleOrAuthor)).ToList();
         }
     }
 }

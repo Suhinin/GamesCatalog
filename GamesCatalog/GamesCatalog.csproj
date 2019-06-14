@@ -22,5 +22,6 @@
     <Folder Include="Data\" />
     <Folder Include="Data\GamesProvider\" />
     <Folder Include="Data\GamesProvider\Domain\" />
+    <Folder Include="Behaviors\" />
   </ItemGroup>
 </Project>

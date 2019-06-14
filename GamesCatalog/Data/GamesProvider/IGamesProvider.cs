@@ -10,6 +10,6 @@ namespace GamesCatalog.Data.GamesProvider
 
         void Add(string title, string detail, string author, string image);
 
-        IList<GameModel> Search(string title, string author);
+        IList<GameModel> Search(string titleOrAuthor);
     }
 }
