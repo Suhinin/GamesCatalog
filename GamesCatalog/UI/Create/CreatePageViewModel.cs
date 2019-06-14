@@ -1,8 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using GamesCatalog.Data.GamesProvider;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
+using Prism.Services;
+using Xamarin.Forms;
 
 namespace GamesCatalog.UI.Create
 {
@@ -17,11 +20,13 @@ namespace GamesCatalog.UI.Create
 
         private readonly INavigationService _navigationService;
         private readonly IGamesProvider _gamesProvider;
+        private readonly IPageDialogService _dialogService;
 
-        public CreatePageViewModel(INavigationService navigationService, IGamesProvider gamesProvider)
+        public CreatePageViewModel(INavigationService navigationService, IGamesProvider gamesProvider, IPageDialogService dialogService)
         {
             _navigationService = navigationService;
             _gamesProvider = gamesProvider;
+            _dialogService = dialogService;
 
             AddCommand = new DelegateCommand(async () => await AddGame());
         }
@@ -30,6 +35,18 @@ namespace GamesCatalog.UI.Create
         {
             _gamesProvider.Add(Title, Detail, Author, Image);
             await _navigationService.GoBackAsync();
+
+            ShowDelayedMessage();
+        }
+
+        private void ShowDelayedMessage()
+        {
+            Task.Run(async () =>
+            {
+                await Task.Delay(TimeSpan.FromSeconds(5));
+                Device.BeginInvokeOnMainThread(async () =>
+                    await _dialogService.DisplayAlertAsync("Info", "New game added", "OK"));
+            });
         }
     }
 }
