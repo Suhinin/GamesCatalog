@@ -33,7 +33,7 @@ namespace GamesCatalog.UI.Create
 
         private async Task AddGame()
         {
-            _gamesProvider.Add(Title, Detail, Author, Image);
+            await _gamesProvider.AddAsync(Title, Detail, Author, Image);
             await _navigationService.GoBackAsync();
 
             ShowDelayedMessage();

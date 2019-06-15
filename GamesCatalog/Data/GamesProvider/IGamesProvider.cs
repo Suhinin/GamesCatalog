@@ -1,15 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using GamesCatalog.Data.GamesProvider.Domain;
 
 namespace GamesCatalog.Data.GamesProvider
 {
     public interface IGamesProvider
     {
-        IList<GameModel> GetAll();
+        void Init();
 
-        void Add(string title, string detail, string author, string image);
+        Task<IList<GameModel>> GetAllAsync();
 
-        IList<GameModel> Search(string titleOrAuthor);
+        Task AddAsync(string title, string detail, string author, string image);
+
+        Task<IList<GameModel>> SearchAsync(string titleOrAuthor);
     }
 }

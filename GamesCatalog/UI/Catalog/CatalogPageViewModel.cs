@@ -38,7 +38,7 @@ namespace GamesCatalog.UI.Catalog
 
             _games = new ObservableCollection<Game>();
             AddCommand = new DelegateCommand(async() => await AddGame());
-            SearchCommand = new DelegateCommand<string>(Search);
+            SearchCommand = new DelegateCommand<string>(async (arg) => await SearchAsync(arg));
         }
 
         public void OnNavigatedFrom(INavigationParameters parameters)
@@ -48,7 +48,7 @@ namespace GamesCatalog.UI.Catalog
 
         public void OnNavigatedTo(INavigationParameters parameters)
         {
-            Search(SearchExpression);
+            Task.Run(async() => await SearchAsync(SearchExpression));
         }
 
         private async Task AddGame()
@@ -56,12 +56,13 @@ namespace GamesCatalog.UI.Catalog
             await _navigationService.NavigateAsync("CreatePage");
         }
 
-        private void Search(string expression)
+        private async Task SearchAsync(string expression)
         {
-            var games = expression == null 
-                ? _gamesProvider.GetAll() 
-                : _gamesProvider.Search(expression);
+            var task = expression == null 
+                ? _gamesProvider.GetAllAsync() 
+                : _gamesProvider.SearchAsync(expression);
 
+            var games = await task;
             RefreshList(games);
         }
 
